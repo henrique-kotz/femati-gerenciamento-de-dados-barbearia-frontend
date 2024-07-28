@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 function App() {
   //useState with objects?
@@ -13,8 +14,20 @@ function App() {
 
   function submitForm(e) {
     e.preventDefault();
-  
-    console.log(name, phone, service, payment, city, unit);
+
+    const data = {
+      name, phone, service, payment, city, unit
+    };
+
+    axios.post('http://localhost:5000', data)
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error.message))
+  }
+
+  function getData() {
+    axios.get('http://localhost:5000')
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error.message))
   }
 
   return (
@@ -58,6 +71,8 @@ function App() {
       <button type="submit">
         Enviar
       </button>
+
+      <button type="button" onClick={getData}>Buscar</button>
     </form>
   );
 }
